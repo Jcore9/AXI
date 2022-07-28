@@ -70,7 +70,7 @@ endinterface : AXI4_LITE
 
 // Axi4-Stream
 interface AXI4_STREAM_BASIC #(
-    parameter int unsigned DATA_WIDTH = 0;
+    parameter int unsigned DATA_WIDTH = 0
 );
 
     typedef logic [DATA_WIDTH-1:0] data_type;
