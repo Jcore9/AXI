@@ -7,38 +7,38 @@ interface AXI4_LITE #(
     // strb is which bytes in the transaction are enabled
     localparam int unsigned STRB_WIDTH = DATA_WIDTH / 8;
     
-    typedef logic [ADDR_WIDTH-1:0] addr_t;
-    typedef logic [DATA_WIDTH-1:0] data_t;
-    typedef logic [STRB_WIDTH-1:0] strb_t;
+    typedef logic [ADDR_WIDTH-1:0] addr_type;
+    typedef logic [DATA_WIDTH-1:0] data_type;
+    typedef logic [STRB_WIDTH-1:0] strb_type;
 
     // Write Address Channel
-    addr_t           awaddr;
-    axi_pack::prot_t awprot;
-    logic            awvalid;
-    logic            awready;
+    addr_type           awaddr;
+    axi_pack::prot_type awprot;
+    logic               awvalid;
+    logic               awready;
 
     // Write Data Channel
-    data_t           wdata;
-    strb_t           wstrb;
-    logic            wvalid;
-    logic            wready;
+    data_type           wdata;
+    strb_type           wstrb;
+    logic               wvalid;
+    logic               wready;
 
     // Write Response Channel
-    axi_pack::resp_t bresp;
-    logic            bvalid;
-    logic            bready;
+    axi_pack::resp_type bresp;
+    logic               bvalid;
+    logic               bready;
 
     // Read Addresss Channel
-    addr_t           araddr;
-    axi_pack::prot_t arprot;
-    logic            arvalid;
-    logic            arready;
+    addr_t              araddr;
+    axi_pack::prot_type arprot;
+    logic               arvalid;
+    logic               arready;
 
     // Read Data Channel
-    data_t           rdata;
-    axi_pack::resp_t rresp;
-    logic            rvalid;
-    logic            rready;
+    data_t              rdata;
+    axi_pack::resp_type rresp;
+    logic               rvalid;
+    logic               rready;
 
     modport MASTER (
         // Write Address Channel
@@ -67,3 +67,25 @@ interface AXI4_LITE #(
     );
 
 endinterface : AXI4_LITE
+
+// Axi4-Stream
+interface AXI4_STREAM_BASIC #(
+    parameter int unsigned DATA_WIDTH = 0;
+);
+
+    typedef logic [DATA_WIDTH-1:0] data_type;
+
+    data_type tData;
+    logic     tValid;
+    logic     tReady;
+
+    modport MASTER (
+        input  tReady,
+        output tData, tValid
+    );
+
+    modport SLAVE (
+        input  tData, tValid,
+        output tReady
+    );
+endinterface : AXI4_STREAM_BASIC
